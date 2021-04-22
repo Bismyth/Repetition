@@ -1,12 +1,16 @@
 var score = 1;
 
+var textProperty = { fontSize: '14px', color: '#e6de9c', fontFamily: 'PressStart2P' };
+
+var music;
+
 class StartScreen extends Phaser.Scene {
   constructor() { super('StartScreen') }
   preload() { this.load.image('tiles', 'img/Tiles.png') }
   create() {
-    this.add.text(170, 240, "Your goal is to escape the maze.\n\nUse the arrow keys to move.\n\n\n\nPress any key to continue...", {
-      fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P', fixedHeight:"200",align:"center"
-    })
+    this.add.text(183, 240, "Your goal is to escape the maze.\n\nUse the arrow keys to move.\n\n\n\nPress any key to continue...",
+      {...textProperty,align:"center"}
+    )
     var s = this.scene
     this.input.keyboard.on('keyup',function() {
       s.switch('MainMaze')
@@ -23,6 +27,9 @@ class MainMaze extends Phaser.Scene {
     this.load.image('mask', 'img/mask1.png');
     this.load.tilemapTiledJSON('map', 'data/Maze.json')
     this.load.multiatlas('Player', 'data/Wizard.json', 'img')
+    this.load.audio('theme', [
+      "CaveGroove.wav"
+    ])
   }
   create() { initiate(this, 'map') }
   update() { gameTick(this) }
@@ -41,12 +48,17 @@ class WinScreen extends Phaser.Scene {
   constructor() { super('WinScreen') }
   preload() { }
   create() {
-    this.add.text(280, 300, "You Win", { fontSize: '32px', fill: '#fff', fontFamily: 'PressStart2P' })
+    this.add.text(290, 300, "You Win", {...textProperty, fontSize:"32px"})
   }
   update() { }
 }
 
 function initiate(game, m) {
+  if(music == undefined){
+    music = game.sound.add('theme',{loop:true})
+    music.volume = 0.1
+    music.play()
+  }
   const container = game.add.container(0, 0).setName('background');
   const map = game.make.tilemap({ key: m })
   const tileset = map.addTilesetImage('Test', 'tiles')
@@ -65,7 +77,7 @@ function initiate(game, m) {
   });
   game.spotlight.scale = 1.5;
   container.mask = new Phaser.Display.Masks.BitmapMask(game, game.spotlight);
-  game.scoreText = game.add.text(640, 600, 'Level: ' + score, { fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P' });
+  game.scoreText = game.add.text(640, 600, 'Level: ' + score, textProperty);
 
   game.player = game.physics.add.sprite(-200, 274, "Player", "2/1.png")
   game.player.body.setSize(16, 16)
@@ -178,7 +190,8 @@ var config = {
       debug: false
     }
   },
-  backgroundColor: "#222222"
+  backgroundColor: "#222222",
+  parent: "gameDiv"
 };
 
 var game = new Phaser.Game(config);

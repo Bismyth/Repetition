@@ -1,0 +1,33 @@
+@font-face {
+  font-family: PressStart2P;
+  src: url('fonts/PressStart2P-Regular.ttf');
+  font-weight:400;
+  font-weight:normal;
+}
+body {
+  background:#222;
+  max-width: 800px;
+  margin: auto;
+}
+
+.text {
+  font-family: PressStart2P;
+  color: #e6de9c;
+  text-align: center;
+}
+
+.mb-2 {
+  margin-bottom:2rem;
+}
+
+.link {
+  color: #e6de9c;
+}
+
+.link:hover {
+  color: #ebeae0;
+}
+
+.link:visited {
+  color: #a8a473;
+}
