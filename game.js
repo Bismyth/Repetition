@@ -2,7 +2,7 @@ var score = 1;
 
 class StartScreen extends Phaser.Scene {
   constructor() { super('StartScreen') }
-  preload() { }
+  preload() { this.load.image('tiles', 'img/Tiles.png') }
   create() {
     this.add.text(170, 240, "Your goal is to escape the maze.\n\nUse the arrow keys to move.\n\n\n\nPress any key to continue...", {
       fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P', fixedHeight:"200",align:"center"
