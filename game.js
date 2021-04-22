@@ -63,7 +63,7 @@ function initiate(game, m) {
     key: 'mask',
     add: false
   });
-  game.spotlight.scale = 2;
+  game.spotlight.scale = 1.5;
   container.mask = new Phaser.Display.Masks.BitmapMask(game, game.spotlight);
   game.scoreText = game.add.text(640, 600, 'Level: ' + score, { fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P' });
 
@@ -142,7 +142,12 @@ function movePlayer(game) {
     if (game.scene.settings.key == 'EscapeMaze') {
       game.scene.restart()
     } else {
-      game.scene.switch('EscapeMaze')
+      if(score > Math.floor(Math.random()*4+2)){
+        game.scene.switch('EscapeMaze')
+      } else {
+        game.scene.restart()
+      }
+      
     }
   }
   if (game.player.x < 0) {
