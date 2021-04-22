@@ -1,4 +1,20 @@
-var score = 0;
+var score = 1;
+
+class StartScreen extends Phaser.Scene {
+  constructor() { super('StartScreen') }
+  preload() { }
+  create() {
+    this.add.text(170, 240, "Your goal is to escape the maze.\n\nUse the arrow keys to move.\n\n\n\nPress any key to continue...", {
+      fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P', fixedHeight:"200",align:"center"
+    })
+    var s = this.scene
+    this.input.keyboard.on('keyup',function() {
+      s.switch('MainMaze')
+    })
+  }
+  update() { }
+}
+
 
 class MainMaze extends Phaser.Scene {
   constructor() { super('MainMaze') }
@@ -23,9 +39,9 @@ class EscapeMaze extends Phaser.Scene {
 
 class WinScreen extends Phaser.Scene {
   constructor() { super('WinScreen') }
-  preload() {}
+  preload() { }
   create() {
-    this.add.text(280,300,"You Win", { fontSize: '32px', fill: '#fff', fontFamily:'PressStart2P' })
+    this.add.text(280, 300, "You Win", { fontSize: '32px', fill: '#fff', fontFamily: 'PressStart2P' })
   }
   update() { }
 }
@@ -49,9 +65,8 @@ function initiate(game, m) {
   });
   game.spotlight.scale = 2;
   container.mask = new Phaser.Display.Masks.BitmapMask(game, game.spotlight);
+  game.scoreText = game.add.text(640, 600, 'Level: ' + score, { fontSize: '14px', fill: '#fff', fontFamily: 'PressStart2P' });
 
-  game.scoreText = game.add.text(520, 600, 'Mazes Completed: '+score, { fontSize: '14px', fill: '#fff', fontFamily:'PressStart2P' });
-  
   game.player = game.physics.add.sprite(-200, 274, "Player", "2/1.png")
   game.player.body.setSize(16, 16)
   game.player.body.setOffset(0, 16)
@@ -123,8 +138,8 @@ function movePlayer(game) {
 
   if (game.player.x > game.cameras.main.width + 200) {
     score++;
-    game.scoreText.setText("Mazes Completed: " + score)
-    if(game.scene.settings.key == 'EscapeMaze'){
+    game.scoreText.setText("Level: " + score)
+    if (game.scene.settings.key == 'EscapeMaze') {
       game.scene.restart()
     } else {
       game.scene.switch('EscapeMaze')
@@ -141,7 +156,7 @@ function movePlayer(game) {
     game.player.canMove = false
     game.player.setVelocityY(game.player.moveSpeed);
   }
-  if (game.player.y > game.cameras.main.height+200) {
+  if (game.player.y > game.cameras.main.height + 200) {
     game.scene.switch("WinScreen")
   }
 }
@@ -150,7 +165,7 @@ var config = {
   type: Phaser.AUTO,
   width: 800,
   height: 640,
-  scene: [MainMaze, EscapeMaze, WinScreen],
+  scene: [StartScreen, MainMaze, EscapeMaze, WinScreen],
   physics: {
     default: 'arcade',
     arcade: {
