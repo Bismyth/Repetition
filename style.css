@@ -1,18 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 @font-face {
   font-family: PressStart2P;
   src: url('fonts/PressStart2P-Regular.ttf');
   font-weight:400;
   font-weight:normal;
 }
+
 body {
   background:#222;
   max-width: 800px;
   margin: auto;
+  color: #e6de9c;
 }
 
 .text {
   font-family: PressStart2P;
-  color: #e6de9c;
   text-align: center;
 }
 
@@ -20,14 +22,21 @@ body {
   margin-bottom:2rem;
 }
 
-.link {
-  color: #e6de9c;
+.link { color: #e6de9c; }
+.link:hover { color: #ebeae0; }
+.link:visited { color: #a8a473; }
+
+.bodyText {
+  font-family: 'Quicksand', sans-serif;
 }
 
-.link:hover {
-  color: #ebeae0;
+.s-1 {
+  font-size: 1.1rem;
+}
+.s-2 {
+  font-size: 1.3rem;
 }
 
-.link:visited {
-  color: #a8a473;
+.lh-2 {
+  line-height: 170%;
 }
