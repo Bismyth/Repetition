@@ -8,12 +8,13 @@ class StartScreen extends Phaser.Scene {
   constructor() { super('StartScreen') }
   preload() { this.load.image('tiles', 'img/Tiles.png') }
   create() {
+    score = 1
     this.add.text(183, 240, "Your goal is to escape the maze.\n\nUse the arrow keys to move.\n\n\n\nPress any key to continue...",
       {...textProperty,align:"center"}
     )
     var s = this.scene
-    this.input.keyboard.on('keyup',function() {
-      s.switch('MainMaze')
+    this.input.keyboard.on('keyup',function(event) {
+        s.start('MainMaze')
     })
   }
   update() { }
@@ -48,7 +49,13 @@ class WinScreen extends Phaser.Scene {
   constructor() { super('WinScreen') }
   preload() { }
   create() {
-    this.add.text(290, 300, "You Win", {...textProperty, fontSize:"32px"})
+    this.add.text(170, 250, "You've escaped the maze\n\n\n\nPress R to restart the game.", {...textProperty, align:"center", fontSize:"16px"})
+    this.input.keyboard.on('keyup',function(event) {
+      var key = event.keyCode
+      if(key == Phaser.Input.Keyboard.KeyCodes.R){
+        window.location.reload(false);
+      }
+    })
   }
   update() { }
 }
@@ -56,7 +63,7 @@ class WinScreen extends Phaser.Scene {
 function initiate(game, m) {
   if(music == undefined){
     music = game.sound.add('theme',{loop:true})
-    music.volume = 0.1
+    music.volume = 0.2
     music.play()
   }
   const container = game.add.container(0, 0).setName('background');
@@ -84,7 +91,7 @@ function initiate(game, m) {
   game.player.body.setOffset(0, 16)
   game.player.scale = 2
 
-  game.player.moveSpeed = 170;
+  game.player.moveSpeed = 150;
   game.player.canMove = true;
   game.directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
   for (var i = 0; i < 8; i++) {
@@ -155,7 +162,7 @@ function movePlayer(game) {
       game.scene.restart()
     } else {
       if(score > Math.floor(Math.random()*4+2)){
-        game.scene.switch('EscapeMaze')
+        game.scene.start('EscapeMaze')
       } else {
         game.scene.restart()
       }
